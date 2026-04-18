@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Portal</title>
+</head>
+<body>
+
+<h1>Student Portal</h1>
+
+<input type="text" id="studentId" placeholder="Enter Student ID">
+<button onclick="getStudent()">Get Student</button>
+<button onclick="getQR()">Generate QR</button>
+
+<pre id="output"></pre>
+<img id="qrImage" width="200"/>
+
+<script>
+function getStudent() {
+    const id = document.getElementById("studentId").value;
+
+    fetch(`/api/student/${id}`)
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("output").textContent =
+                JSON.stringify(data, null, 2);
+        })
+        .catch(err => {
+            document.getElementById("output").textContent =
+                "Student not found";
+        });
+}
+
+function getQR() {
+    const id = document.getElementById("studentId").value;
+
+    document.getElementById("qrImage").src =
+        `/generate-id?sid=${id}`;
+}
+</script>
+
+</body>
+</html>
